@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-
+#include <string.h>
 using namespace std;
 struct form {
     char sign[32];
@@ -11,55 +11,64 @@ struct form {
     char date[10];
 };
 int size_arr = 4000;
-void comparseSign(form arr[], int n, int i)
-{
-    int max = i;
-    int l = 2*i + 1;
-    int r = 2*i + 2;
-    if (l < n && arr[l].sign[0] > arr[max].sign[0]){
-        max = l;}
-    if (r < n && arr[r].sign[0] > arr[max].sign[0]){
-        max = r;}
-    if (max != i)
-    {
-        swap(arr[i], arr[max]);
-        comparseSign(arr, n, max);
-    }
-}
+
+
 void comparseStreet(form arr[], int n, int i)
 {
     int max = i;
     int l = 2*i + 1;
     int r = 2*i + 2;
-    if (l < n && arr[l].street[0] > arr[max].street[0]){
-        max = l;}
-    if (r < n && arr[r].street[0] > arr[max].street[0]){
-        max = r;}
+    bool flag = 1;
+    int d=0;
+    if (r < n &&l < n&& strcmp(arr[r].sign,arr[max].sign)==0) {
+
+
+    if (l < n && strcmp(arr[l].street,arr[max].street)>0) {
+        max = l;
+    }
+    if (r < n && strcmp(arr[r].street,arr[max].street)>0) {
+        max = r;
+    }
     if (max != i)
     {
         swap(arr[i], arr[max]);
         comparseStreet(arr, n, max);
-    }
+    }}
 }
+void comparse(form arr[], int n, int i)
+{
+    int max = i;
+    int l = 2*i + 1;
+    int r = 2*i + 2;
+    int flag = 1;
 
+
+    if (l < n && strcmp(arr[l].sign,arr[max].sign)>0) {
+        max = l;
+    }
+    if (r < n && strcmp(arr[r].sign,arr[max].sign)>0) {
+        max = r;
+    }
+
+
+    if (max != i)
+    {
+        swap(arr[i], arr[max]);
+        comparse(arr, n, max);
+
+    }
+    comparseStreet(arr,n,i);
+}
 void sort(form arr[], int n) {
     for (int i = n / 2 - 1; i >= 0; i--){
-        comparseSign(arr, n, i);
+        comparse(arr, n, i);
 }
     for (int i=n-1; i>0; i--)
     {
         swap(arr[0], arr[i]);
-        comparseSign(arr, i, 0);
+        comparse(arr, i, 0);
     }
 
-    for (int i = n / 2 - 1; i >= 0; i--){
-        comparseSign(arr, n, i);}
-
-    for (int i=n-1; i>0; i--)
-    {
-        swap(arr[0], arr[i]);
-        comparseSign(arr, i, 0);
-    }
 }
 
 
