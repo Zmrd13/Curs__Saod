@@ -13,28 +13,26 @@ struct form {
 int size_arr = 4000;
 
 
-void comparseStreet(form arr[], int n, int i)
-{
+void comparseStreet(form arr[], int n, int i) {
     int max = i;
-    int l = 2*i + 1;
-    int r = 2*i + 2;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
     int flag = 1;
 
-if(strcmp(arr[l].sign,arr[max].sign)==0) {
-    if (l < n && strcmp(arr[l].street, arr[max].street) > 0) {
+
+    if (l < n && strcmp(arr[l].street, arr[max].street) > 0 &&strcmp(arr[l].sign,arr[max].sign)==0) {
         max = l;
     }
-    if (r < n && strcmp(arr[r].street, arr[max].street) > 0) {
+    if (r < n && strcmp(arr[r].street, arr[max].street) > 0 && strcmp(arr[r].sign,arr[max].sign)==0) {
         max = r;
     }
-}
-    if (max != i)
-    {
+
+    if (max != i) {
         swap(arr[i], arr[max]);
         comparseStreet(arr, n, max);
 
 
-}
+    }
 }
 void comparse(form arr[], int n, int i)
 {
@@ -42,7 +40,6 @@ void comparse(form arr[], int n, int i)
     int l = 2*i + 1;
     int r = 2*i + 2;
     int flag = 1;
-
 
     if (l < n && strcmp(arr[l].sign,arr[max].sign)>0) {
         max = l;
@@ -62,23 +59,17 @@ void comparse(form arr[], int n, int i)
 void sort(form arr[], int n) {
 
     for (int i = n / 2 - 1; i >= 0; i--){
+
         comparse(arr, n, i);
+       comparseStreet(arr, n, i);
     }
     for (int i=n-1; i>0; i--)
     {
         swap(arr[0], arr[i]);
         comparse(arr, i, 0);
+       comparseStreet(arr, i, 0);
+    }
 
-    }
-    for (int i = n / 2 - 1; i >= 0; i--){
-        comparseStreet(arr, n, i);
-    }
-    for (int i=n-1; i>0; i--)
-    {
-        swap(arr[0], arr[i]);
-        comparseStreet(arr, i, 0);
-
-    }
 }
 
 
