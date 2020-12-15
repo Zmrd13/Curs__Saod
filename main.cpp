@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <iostream>
 #include <string.h>
-
+#define MAX_TREE_HT 100
 using namespace std;
 struct form {
     char sign[32];
@@ -24,36 +24,15 @@ struct Node{
 
 struct Qu {
     struct list *frnt, *rear;
-} queue;
+} qu;
 struct letter{
-    unsigned char let=0;
-    float freq=0;
+       unsigned char let=0;
+        float freq=0;
 
 };
-#define MAX_TREE_HT 100
+
 
 int size_arr = 4000;
-int **C=new int*;
-int *L=new int;
-
-
-//////////////////////////////////////HAFFMANN
-const int N = 256;
-
-struct SYM // представление символа
-{
-    unsigned char ch; // ASCII-код
-    float freq; // частота встречаемости
-    char code[256]; // массив для нового кода
-    struct SYM *left; // левый потомок в дереве
-    struct SYM *right; // правый потомок в дереве
-}*sym;
-
-
-
-long int num= 0;
-
-
 
 
 
@@ -120,9 +99,9 @@ void SearchTree(Node** root,Node **prod, char key[3])
     }
     else {
 
-        AddTree(prod,(*root)->data,(*root)->w);
+      AddTree(prod,(*root)->data,(*root)->w);
         SearchTree_e(&(*root),prod,key);
-        return;
+      return;
 
     }
 
@@ -134,16 +113,16 @@ void DOP_A1(Node* &root,form arr[],int w[],int *u,int n){
         u[i]=0;
     }
     for(int i=0;i<n;i++){
-        int max=0,INDEX=0;
-        for(int j=0;j<n;j++){
-            if(w[j]>max && u[j]==0){
-                max=w[j];
-                INDEX=j;
-            }
-        }
-        u[INDEX]=1;
-        //cout<<w[INDEX]<<endl;
-        AddTree(&root,arr[INDEX],w[INDEX]);
+       int max=0,INDEX=0;
+       for(int j=0;j<n;j++){
+           if(w[j]>max && u[j]==0){
+               max=w[j];
+               INDEX=j;
+           }
+       }
+       u[INDEX]=1;
+       //cout<<w[INDEX]<<endl;
+    AddTree(&root,arr[INDEX],w[INDEX]);
     }
 }
 
@@ -246,7 +225,7 @@ void insert(struct Qu *q, form x) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////// Поиск
-int binarySearchB(Qu *q, form arr[], char x[3], int n) {
+int binarySearchB( form arr[], char x[3], int n) {
     int l = 0;
     int r = n - 1;
     while (l <= r) {
@@ -272,7 +251,7 @@ int binarySearchB(Qu *q, form arr[], char x[3], int n) {
 
     return -1;
 }
-int binarySearchE(Qu *q, form arr[], char x[3], int n) {
+int binarySearchE( form arr[], char x[3], int n) {
     int l = 0;
     int r = n - 1;
     while (l <= r) {
@@ -298,9 +277,8 @@ int binarySearchE(Qu *q, form arr[], char x[3], int n) {
     return -1;
 }
 int Search(struct Qu *q, form arr[], char key[3], int n) {
-    cout<<key;
-    int first = binarySearchB(q, arr, key, n - 1) - 1;
-    int last = binarySearchE(q, arr, key, n - 1);
+    int first = binarySearchB( arr, key, n )-1 ;
+    int last = binarySearchE(arr, key, n );
     for (int i = first; i <= last; i++) {
         insert(q, arr[i]);
     }
@@ -620,7 +598,7 @@ letter *reading(char *in,int n){
         arr[i].let=in[i];
         arr[i].freq=1;
 
-        //cout<<" "<<i<<"-"<<arr[i].let;
+          //cout<<" "<<i<<"-"<<arr[i].let;
     }
     return arr;
 }
@@ -637,8 +615,8 @@ letter * frequencyCheck(letter *arr,int n){
             }}
 
         if(arr[i].freq>1){
-            // cout<<arr[i].let<<" freq="<<arr[i].freq<<" ";
-        }
+         // cout<<arr[i].let<<" freq="<<arr[i].freq<<" ";
+             }
     }
     return arr;
 }
@@ -676,7 +654,6 @@ void Huffsort(letter arr[], int n) {
 int main() {
     root_=0;
     search_root=0;
-    sym=new SYM ;
     int n = 4000;
     struct Qu *q;
     q = new Qu;
@@ -687,7 +664,67 @@ int main() {
     fin.read((char *) Base, size_arr * sizeof(form));
 
     fin.close();
+    streampos begin, end;
+    ifstream f("testBase4.dat");
+    begin = f.tellg();
+    f.seekg(0, ios::end);
+    end = f.tellg();
+    int count=(end - begin);
+    cout << "Length: " <<count<< " symbols.\n";
+    f.close();
+    FILE *file;
+    file=fopen("testBase4.dat","rb");
 
+    char c=0;
+    char *tmp=new char[count];
+
+    int p=0;
+
+    while(p<count){
+
+        c=fgetc(file);
+        tmp[p]=c;
+
+      // cout<<tmp[p]<<endl;
+        p++;
+
+    }
+    letter *arr=reading(tmp,count);
+    cout<<"\n";
+    arr=frequencyCheck(arr,count);
+int h=0;
+    for(int i=0;i<count;i++){
+        if(arr[i].freq>=1){
+            h++;
+           // cout<<"'"<<arr[i].let<<"' "<<arr[i].freq/count;
+
+            //cout<<"1";
+}
+    }
+   // cout<<"\n h"<<h;
+
+    Huffsort(arr,h);
+    float *mas=new float[h];
+char *let=new char[h];
+    int j=0;
+    for(int i=h;i>0;i--){
+        if(arr[i].freq>1){
+            //out<<" "<<arr[i].let;
+            mas[j]=arr[i].freq;
+            let[j]=arr[i].let;
+j++;
+            //cout<<"1";
+        }
+    }
+    int size = sizeof(let) / sizeof(let[0]);
+    cout<<"\nUNIQUE :"<<size<<"\n";
+    for(int i=0;i<j;i++){
+        cout<<mas[i]<<endl;
+
+    }
+    free(arr);
+HuffmanCodes(let,mas,j);
+    fclose(file);
 
     sort(Base, n);
     int temp = 20, i = 0;
@@ -717,20 +754,20 @@ int main() {
             check = Search(q, Base, key_word, n);
             cout << "\n______________Queue-----------------------\n";
             arr_Search=new form[check];
-            arr_Search=Print(q, check);
-            int *w=new int [check];
+           arr_Search=Print(q, check);
+           int *w=new int [check];
             int *use=new int [check];
             for (int j=0; j < check; j++) {
                 w[j]=rand()%200;
             }
             DOP_A1(root_,arr_Search,w,use,check);
             cout << "\n______________DOP A1 tree-----------------------\n";
-            LR(root_);
-            cout<<"\nFlat number search: ";
-            char in[3];
-            cin>>in;
+           LR(root_);
+           cout<<"\nFlat number search: ";
+           char in[3];
+           cin>>in;
 
-            SearchTree(&root_,&search_root,in);
+           SearchTree(&root_,&search_root,in);
 
             cout << "\n______________Search-----------------------\n";
             LR(search_root);
