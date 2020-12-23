@@ -282,8 +282,6 @@ void printCodes(struct MinHeapNode* root, int arr[], int top,int n)
         printf("%c: ", root->data);
         printArr(arr, top,n);
         cout<<endl<<H<<endl;
-
-
         cout<<endl<<counter<<endl;
 counter++;
 

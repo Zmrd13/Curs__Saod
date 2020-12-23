@@ -10,7 +10,7 @@ using namespace std;
 #define MAX_TREE_HT 60
 struct letter{
     unsigned char let=0;
-     float freq=0;
+     double freq=0;
 
 };
 struct MinHeapNode {
