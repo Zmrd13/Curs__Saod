@@ -5,15 +5,16 @@
 #ifndef UNTITLED1_HUUFY_H
 #define UNTITLED1_HUUFY_H
 #include <iostream>
-#define MAX_TREE_HT 100
+#include<set>
+using namespace std;
+#define MAX_TREE_HT 60
 struct letter{
     unsigned char let=0;
-    float freq=0;
+     float freq=0;
 
 };
 struct MinHeapNode {
     char data;
-
     unsigned freq;
     int *arr;
     int top;
@@ -21,27 +22,11 @@ struct MinHeapNode {
     struct MinHeapNode *left, *right;
 };
 
-letter *reading(char *in,int n);
-letter * frequencyCheck(letter *arr,int n);
+letter *reading(set<wchar_t>x,int n);
+letter * frequencyCheck(letter *arr,const wchar_t *tmp,int n,int size);
 void Huffcomparse(letter arr[], int n, int i);
 void Huffsort(letter arr[], int n);
-MinHeapNode* HuffmanCodes(char data[], float freq[], int code[],int size,float sub,MinHeapNode *x);
-void printCodes(struct MinHeapNode* root, int arr[], int top,int code[],int size,float sub);
-struct MinHeapNode* buildHuffmanTree(char data[], float freq[], int size);
-struct MinHeap* createAndBuildMinHeap(char data[], float freq[], int size);
-int isLeaf(struct MinHeapNode* root);
-int * printArr(int arr[], int n,MinHeapNode* root);
-void buildMinHeap(struct MinHeap* minHeap);
-void insertMinHeap(struct MinHeap* minHeap,
-                   struct MinHeapNode* minHeapNode);
-struct MinHeapNode* extractMin(struct MinHeap* minHeap);
-int isSizeOne(struct MinHeap* minHeap);
-void minHeapify(struct MinHeap* minHeap, int idx);
-void swapMinHeapNode(struct MinHeapNode** a,
-                     struct MinHeapNode** b);
-struct MinHeap* createMinHeap(unsigned capacity);
-
-struct MinHeapNode* newNode(char data, unsigned freq);
+void HuffmanCodes(char data[], float freq[],int size,int n);
 
 
 #endif//UNTITLED1_HUUFY_H

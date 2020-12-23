@@ -5,7 +5,9 @@
 #include "HUUFY.h"
 #include "DOP.h"
 #include "SEARCH.h"
+#include<windows.h>
 #include <cmath>
+#include<set>
 using namespace std;
 
 int size_arr = 4000;
@@ -68,6 +70,7 @@ void sort(form arr[], int n) {
 //////////////////////////////////////////////////////////////////////////////////////////////////// Поиск
 
 //////////////////////////////////////////////////////////////////////////////////////////////
+
 int * LR(MinHeapNode* x,char temp)
 {char* buffer=new char;
     if (x == NULL) return (NULL);
@@ -86,12 +89,15 @@ int * LR(MinHeapNode* x,char temp)
         }
         i++;
         }
-    ;}
+    }
     fclose(mf);
     LR(x->right,temp);
 }
 
 int main() {
+    SetConsoleCP(1251);
+    set<wchar_t>x;
+
     root_=0;
     search_root=0;
     int n = 4000;
@@ -114,60 +120,58 @@ int main() {
     FILE *file;
     file=fopen("testBase4.dat","rb");
 
-    char c=0;
-    char *tmp=new char[count];
+    wchar_t c=0;
+    wchar_t *tmp=new  wchar_t[count];
 
     int p=0;
 
-    while(p<count){
+    while(p<=count){
 
-        c=fgetc(file);
+        c=getc(file);
         tmp[p]=c;
-
-      // cout<<tmp[p]<<endl;
+        x.insert(c);
+      //cout<<tmp[p]<<endl;
         p++;
 
     }
-    letter *arr=reading(tmp,count);
-    cout<<"\n";
-    arr=frequencyCheck(arr,count);
-int h=0;
-    for(int i=0;i<count;i++){
-        if(arr[i].freq>=1){
-            h++;
-           // cout<<"'"<<arr[i].let<<"' "<<arr[i].freq/count;
-
-            //cout<<"1";
+    for(auto i : x){
+       // cout << i << endl;
 }
+
+    letter *arr=reading(x,count);
+    cout<<"\n";
+
+int h=x.size();
+p=0;
+    for(int l=0;l<count;l++){
+
+        for(int i=0;i<h;i++){
+            if(arr[i].let==tmp[l]){
+                arr[i].freq++;
+            }
+        }}
+float H;
+    for(int i=0;i<h;i++) {
+        cout<<" \n "<<arr[i].let<<"  "<<arr[i].freq;
+        H=H-(arr[i].freq/(double)count)*log2(arr[i].freq/(double)count);
+
+
     }
-   // cout<<"\n h"<<h;
+    ;
 
     Huffsort(arr,h);
     float *mas=new float[h];
 char *let=new char[h];
-int *code=new int[h];
     int j=0;
-    for(int i=h;i>0;i--){
-        if(arr[i].freq>1){
-            //out<<" "<<arr[i].let;
+    for(int i=0;i<h;i++){
             mas[j]=arr[i].freq;
             let[j]=arr[i].let;
+            j++;
+            //cout<<endl<<i<<": "<<arr[i].let;
+    }
 j++;
-            //cout<<"1";
-        }
-    }
-float H=0;
-    cout<<"\nUNIQUE :"<<j<<"\n";
-    for(int i=0;i<j;i++){
-      //  cout<<mas[i]/count<<endl;
-H-=(mas[i]/count)*log((mas[i]/count));
-    }
-
+    cout<<"\nUNIQUE :"<<h<<"\n";
     free(arr);
-
-
-
-
     sort(Base, n);
     int temp = 20, i = 0;
 
@@ -218,25 +222,27 @@ H-=(mas[i]/count)*log((mas[i]/count));
             LR(search_root);}
             cout << "\n______________ENCRYPTING-----------------------\n";
             if (key == 4) {
-            MinHeapNode &root=*HuffmanCodes(let,mas,code,j,count,&root);
-            file=fopen("testBase4.dat","rb");
+                cout<<j<<"\n";
+            HuffmanCodes(let,mas,j,count);
+                cout<<"EHNTROPY:"<<H<<endl;
 
-            c=0;
-            *tmp=0;
 
-            p=0;
+//            file=fopen("testBase4.dat","rb");
+//            c=0;
+//            *tmp=0;
+//
+//            p=0;
 
-            while(p<count){
+//            while(p<count){
+//                c=fgetc(file);
+//                tmp[p]=c;
+//                LR(&root,tmp[p]);
+//                // cout<<tmp[p]<<endl;
+//                p++;
+//            //}
 
-                c=fgetc(file);
-                tmp[p]=c;
-                LR(&root,tmp[p]);
-                // cout<<tmp[p]<<endl;
-                p++;
-
-            }
-
-            fclose(file);}
+//            fclose(file);
+                     return 0; }
         }
     delete[] Base;
     }
