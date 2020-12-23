@@ -225,8 +225,6 @@ j++;
                 cout<<j<<"\n";
             HuffmanCodes(let,mas,j,count);
                 cout<<"EHNTROPY:"<<H<<endl;
-
-
 //            file=fopen("testBase4.dat","rb");
 //            c=0;
 //            *tmp=0;
