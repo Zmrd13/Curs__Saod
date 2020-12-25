@@ -19,12 +19,10 @@ struct Qu {
     struct list *frnt, *rear;
 } ;
 
-form* Print(Qu *Q, int N);
+form*print(Qu *Q, int N);
 void init(struct Qu *q);
 struct list *init(form a);
-int binarySearchB( form arr[], char x[3], int n);
-int binarySearchE( form arr[], char x[3], int n);
-int Search(struct Qu *q, form arr[], char key[3], int n);
+int search(struct Qu *q, form *arr, char *key, int n);
 
 
 #endif//UNTITLED1_SEARCH_H

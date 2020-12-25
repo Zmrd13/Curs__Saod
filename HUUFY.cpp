@@ -6,9 +6,6 @@
 
 using namespace std;
 float EQ=0;
-float  H=0;
-int counter=0;
-
 letter *reading(set<wchar_t>x,int n){
     letter *arr;
     arr=new letter[n];
@@ -17,31 +14,13 @@ int j=0;
        arr[j].let=i;
        j++;
    }
+
     return arr;
 }
-letter * frequencyCheck( letter *arr,const wchar_t *tmp,int n,int size){
-for(int i=0;i<=size;i++){
-    arr[i].freq=0;
-}
-for(int i=0;i<size;i++){
-    for(int j=0;j<=n;j++){
-if(arr[i].let==tmp[j]){
-arr[i].freq++;
-}
-    }
-}
-    float d=0;
-for(int i=0;i<=size;i++) {
-    cout<<" \n "<<arr[i].let<<"  "<<arr[i].freq;
-    }
-    return arr;
-}
-void Huffcomparse(letter arr[], int n, int i) {
+void huffComparse(letter *arr, int n, int i) {
     int max = i;
     int l = 2 * i + 1;
     int r = 2 * i + 2;
-    int flag = 1;
-
     if (l < n && arr[l].freq<arr[max].freq) {
         max = l;
     }
@@ -51,19 +30,19 @@ void Huffcomparse(letter arr[], int n, int i) {
 
     if (max != i) {
         swap(arr[i], arr[max]);
-        Huffcomparse(arr, n, max);
+        huffComparse(arr, n, max);
     }
 }
 
-void Huffsort(letter arr[], int n) {
+void huffSort(letter *arr, int n) {
 
     for (int i = n / 2 - 1; i >= 0; i--) {
-        Huffcomparse(arr, n, i);
+        huffComparse(arr, n, i);
 
     }
     for (int i = n - 1; i > 0; i--) {
         swap(arr[0], arr[i]);
-        Huffcomparse(arr, i, 0);
+        huffComparse(arr, i, 0);
 
     }
 }
@@ -264,44 +243,30 @@ void printCodes(struct MinHeapNode* root, int arr[], int top,int n)
 
 
     if (root->left) {
-
         arr[top] = 0;
         printCodes(root->left, arr, top + 1,n);
     }
 
-
     if (root->right) {
-
         arr[top] = 1;
         printCodes(root->right, arr, top + 1,n);
     }
-
 
     if (isLeaf(root)) {
         EQ+=top*(root->freq/(double)n);
         printf("%c: ", root->data);
         printArr(arr, top,n);
-        cout<<endl<<H<<endl;
-        cout<<endl<<counter<<endl;
-counter++;
-
     }
 }
 
-
-void HuffmanCodes(char data[], float freq[], int size,int n)
+void huffEncrypt(char *data, float *freq, int size,int n)
 
 {
-
     struct MinHeapNode* root
             = buildHuffmanTree(data, freq, size);
 
-
     int arr[MAX_TREE_HT], top = 0;
-    double long d=0;
-
     printCodes(root, arr, top, n);
-
     cout<<"AVERAGE:"<<EQ<<endl;
 
 }

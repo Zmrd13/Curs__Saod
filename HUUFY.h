@@ -18,15 +18,13 @@ struct MinHeapNode {
     unsigned freq;
     int *arr;
     int top;
-
     struct MinHeapNode *left, *right;
 };
 
 letter *reading(set<wchar_t>x,int n);
-letter * frequencyCheck(letter *arr,const wchar_t *tmp,int n,int size);
-void Huffcomparse(letter arr[], int n, int i);
-void Huffsort(letter arr[], int n);
-void HuffmanCodes(char data[], float freq[],int size,int n);
+void huffComparse(letter *arr, int n, int i);
+void huffSort(letter *arr, int n);
+void huffEncrypt(char *data, float *freq,int size,int n);
 
 
 #endif//UNTITLED1_HUUFY_H

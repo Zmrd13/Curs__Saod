@@ -13,11 +13,6 @@ using namespace std;
 int size_arr = 4000;
 Node *root_, *search_root;
 
-
-////////////////////////////////////////////////////////////ДОП а1
-
-
-///////////////////////////////////////////////////////////СОРТИРОВКА
 void comparseStreet(form arr[], int n, int i) {
     int max = i;
     int l = 2 * i + 1;
@@ -65,41 +60,10 @@ void sort(form arr[], int n) {
         comparseStreet(arr, i, 0);
     }
 }
-/////////////////////////////////////////////Очередь
-
-//////////////////////////////////////////////////////////////////////////////////////////////////// Поиск
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-int *LR(MinHeapNode *x, char temp) {
-    char *buffer = new char;
-    if (x == NULL) return (NULL);
-    LR(x->left, temp);
-    FILE *mf;
-    mf = fopen("text.txt", "ab");
-    int i = 0;
-    if (x->data == temp) {
-        // std::cout<<x->data<<"===";
-        while (i < x->top) {
-            if (x->arr[i] >= 0) {
-                if (x->arr[i] == 1) {
-                    fputc('1', mf);
-                }
-                if (x->arr[i] == 0) {
-                    fputc('0', mf);
-                }
-            }
-            i++;
-        }
-    }
-    fclose(mf);
-    LR(x->right, temp);
-}
 
 int main() {
     SetConsoleCP(1251);
     set<wchar_t> x;
-
     root_ = 0;
     search_root = 0;
     int n = 4000;
@@ -121,7 +85,6 @@ int main() {
     f.close();
     FILE *file;
     file = fopen("testBase4.dat", "rb");
-
     wchar_t c = 0;
     wchar_t *tmp = new wchar_t[count];
 
@@ -135,6 +98,7 @@ int main() {
         //cout<<tmp[p]<<endl;
         p++;
     }
+    fclose(file);
     for (auto i : x) {
         // cout << i << endl;
     }
@@ -154,12 +118,9 @@ int main() {
     }
     double H = 0;
     for (int i = 0; i < h - 1; i++) {
-        cout << " \n " << arr[i].let << "  " << arr[i].freq;
-      H = H - (arr[i].freq / count) * log2(arr[i].freq / count);
-        cout << "EHNTROPY:" << H << endl;
+        H = H - (arr[i].freq / count) * log2(arr[i].freq / count);
     }
-
-    Huffsort(arr, h);
+    huffSort(arr, h);
     float *mas = new float[h];
     char *let = new char[h];
     int j = 0;
@@ -185,10 +146,12 @@ int main() {
             cout << "data \"" << Base[i].date << "\" ";
             cout << endl;
         }
-        cout << "More ? yes 1/ no 2/ search 3/encrypt 4 ";
+        cout << "More ? yes 1/ no 2/ search 3/encrypt 4/all 5 ";
         cin >> key;
         if (key == 2) {
             delete[] Base;
+            delete []mas;
+            delete []let;
             exit(0);
         }
         if (key == 3) {
@@ -197,16 +160,15 @@ int main() {
             cout << "First 3 letters:\n";
             cin >> key_word;
             int check = 0;
-            check = Search(q, Base, key_word, n);
+            check = search(q, Base, key_word, n);
             cout << "\n______________Queue-----------------------\n";
-            arr_Search = new form[check];
-            arr_Search = Print(q, check);
+            arr_Search = print(q, check);
             int *w = new int[check];
             int *use = new int[check];
             for (int j = 0; j < check; j++) {
                 w[j] = rand() % 200;
             }
-            DOP_A1(root_, arr_Search, w, use, check);
+            dopA1(root_, arr_Search, w, use, check);
             free(w);
             free(use);
 
@@ -216,33 +178,32 @@ int main() {
             char in[3];
             cin >> in;
 
-            SearchTree(&root_, &search_root, in);
+            searchTree(&root_, &search_root, in);
 
             cout << "\n______________Search-----------------------\n";
             LR(search_root);
-        }
-        cout << "\n______________ENCRYPTING-----------------------\n";
-        if (key == 4) {
-            cout << j << "\n";
-            HuffmanCodes(let, mas, j, count);
-            cout << "EHNTROPY:" << H << endl;
-            //            file=fopen("testBase4.dat","rb");
-            //            c=0;
-            //            *tmp=0;
-            //
-            //            p=0;
-
-            //            while(p<count){
-            //                c=fgetc(file);
-            //                tmp[p]=c;
-            //                LR(&root,tmp[p]);
-            //                // cout<<tmp[p]<<endl;
-            //                p++;
-            //            //}
-
-            //            fclose(file);
+            delete[] arr_Search;
+            delete[] Base;
+            delete []mas;
+            delete []let;
             return 0;
         }
+        if (key == 4) {
+            cout << "\n______________ENCRYPTING-----------------------\n";
+            cout << j << "\n";
+            huffEncrypt(let, mas, j, count);
+            cout << "EHNTROPY:" << round(H * 10000) / 10000 << endl;
+            delete[] Base;
+            delete []mas;
+            delete []let;
+            return 0;
+        }
+        if (key == 5) {
+            i = 0;
+            temp = size_arr - 20;
+        }
+        temp += 20;
+
     }
     delete[] Base;
 }

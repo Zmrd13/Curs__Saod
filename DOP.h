@@ -17,10 +17,10 @@ struct Node{
     Node *left,*right;
 };
 
-void AddTree(Node** root, form D,int w);
-void SearchTree_e(Node** root,Node **prod, char key[3]);
-void SearchTree(Node** root,Node **prod, char key[3]);
-void DOP_A1(Node* &root,form arr[],int w[],int *u,int n);
+void addTree(Node** root, form D,int w);
+void searchTreeE(Node** root,Node **prod, char *key);
+void searchTree(Node** root,Node **prod, char *key);
+void dopA1(Node* &root, form *arr,int *w,int *u,int n);
 void LR(Node* x);
 
 #endif//UNTITLED1_DOP_H
